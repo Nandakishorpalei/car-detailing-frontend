@@ -27,7 +27,7 @@ export const Header = ({
   isSignup,
 }: HeadersProps) => {
   const { pageTitle } = useSelector((state: RootState) => state.dashboard);
-  const { isAuthenticated } = useSelector((state: RootState) => state.auth);
+
   return (
     <div
       className={classNames(
@@ -40,7 +40,7 @@ export const Header = ({
         <img src={BrandLogo} alt="BrandLogo" className="h-12 w-[84px] sm:h-8 sm:w-14 rounded-lg" />
         </ConditionalLink>
         <div className="flex gap-4">
-          {isAuthenticated && <NavMenu />}
+          <NavMenu />
           {isSignin && (
             <ConditionalLink condition redirect="/signup">
               <Button customType="primary">Sign Up</Button>

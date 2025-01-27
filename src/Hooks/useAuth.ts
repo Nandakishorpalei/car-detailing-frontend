@@ -18,12 +18,11 @@ interface AuthData {
 }
 
 const useAuth = (): AuthData => {
-  const [isLoading, setLoading] = useState(true);
+  const [isLoading, setLoading] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log({ useauth: true });
     // Load auth token and user from local storage
     const savedAuthToken = localStorage.getItem("authToken");
     const savedUser = localStorage.getItem("user");
@@ -77,7 +76,7 @@ const useAuth = (): AuthData => {
   return {
     login,
     logout,
-    isLoading,
+    isLoading:false,
   };
 };
 

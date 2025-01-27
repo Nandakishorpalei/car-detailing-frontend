@@ -49,32 +49,30 @@ function App() {
   }
 
   return (
-    <div className="bg-surface-background">
+    <div>
       <ToastUI />
       <Routes>
         {/* public routes */}
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/signin" element={<Signin />} />
-        <Route path="/success" element={<SuccessPage />} />
-        <Route path="/termsandcondition" element={<TermsAndCondition />} />
+        {/* <Route path="/signup" element={<Signup />} />
+        <Route path="/signin" element={<Signin />} /> */}
+        {/* <Route path="/success" element={<SuccessPage />} />
+        <Route path="/termsandcondition" element={<TermsAndCondition />} /> */}
         {/* protected routes  */}
-        {isVerifiedUser && (
-          <>
-            <Route path="/" element={<Home />} />
-            <Route path="/services" element={<Services />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="*" element={<Link to="/signup">Hello world</Link>} />
-          </>
-        )}
+      
+          <Route path="/" element={<Home />} />
+          <Route path="/services" element={<Services />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="*" element={<Home />} />
+          
 
-        {isAuthenticated && (
+        {/* {isAuthenticated && (
           <>
             <Route path="/verifyuser" element={<VerifyUser />} />
-            <Route path="*" element={<Navigate to="/verifyuser" />} />
+            <Route path="*" element={<Navigate to="/" />} />
           </>
         )}
-        <Route path="*" element={<Navigate to="/signin" />} />
+        <Route path="*" element={<Navigate to="/" />} /> */}
       </Routes>
     </div>
   );

@@ -1,5 +1,4 @@
 import { emptyApi } from "./emptyApi";
-import qs from "qs";
 import { User } from "../model/User";
 
 const extendedApi = emptyApi.injectEndpoints({

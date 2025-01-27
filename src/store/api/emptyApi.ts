@@ -13,7 +13,7 @@ const getAccessToken = async () => {
   try {
     authInLocal = localStorage.getItem("authToken");
     if (!authInLocal) {
-      logOutUser();
+      // logOutUser();
     }
     return authInLocal;
   } catch (error) {

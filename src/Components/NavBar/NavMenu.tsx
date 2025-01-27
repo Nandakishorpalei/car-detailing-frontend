@@ -9,6 +9,8 @@ import { useNavigate } from "react-router-dom";
 import { useRoleBasedView } from "../../Hooks/useRoleBasedView";
 import useAuth from "../../Hooks/useAuth";
 import { ConditionalLink } from "../../UI-Components/ConditionalLink/ConditionalLink";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/store";
 
 type NavMenuProps = {};
 
@@ -17,6 +19,7 @@ export const NavMenu = ({}: NavMenuProps) => {
   const open = Boolean(anchorEl);
   const navigate = useNavigate();
   const { logout } = useAuth();
+  const { isAuthenticated } = useSelector((state: RootState) => state.auth);
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -48,9 +51,9 @@ export const NavMenu = ({}: NavMenuProps) => {
       </Button>
       </ConditionalLink>
       
-      <Button customType="primary" size="small" onClick={logout}>
+      {isAuthenticated && (<Button customType="primary" size="small" onClick={logout}>
         Log Out
-      </Button>
+      </Button>)}
     </div>
   );
 };
