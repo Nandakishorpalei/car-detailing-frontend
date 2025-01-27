@@ -2,7 +2,7 @@
   "name": "car-detailing-frontend",
   "version": "1.0.0",
   "description": "car detailing react",
-  "main": "App.js",
+  "main": "index.html",
   "scripts": {
     "start": "parcel index.html --port 3000",
     "build": "parcel build index.html",
