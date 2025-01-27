@@ -4,7 +4,7 @@
   "description": "car detailing react",
   "scripts": {
     "start": "parcel index.html --port 3000",
-    "build": "parcel build index.html",
+    "build": "parcel build index.html --out-dir dist",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Nanda kishor palei",
