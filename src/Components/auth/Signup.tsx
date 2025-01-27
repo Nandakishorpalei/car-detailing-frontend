@@ -11,7 +11,6 @@ import { sweetAlert } from "../../utils/SweetAlert";
 import { SignupUserForm } from "./SignupUserForm";
 
 export const Signup = () => {
-  usePageTitle("Sign up");
   const { login } = useAuth();
 
   const handleSubmit = async (payload: UserPayload) => {

@@ -7,7 +7,7 @@ export const usePageTitle = (title: string) => {
 
   useEffect(() => {
     dispatch(setPageTitle(title));
-    document.title = `${title} | E-Commerce`;
+    document.title = `Truecare | ${title}`;
   }, [title]);
 
   return title;

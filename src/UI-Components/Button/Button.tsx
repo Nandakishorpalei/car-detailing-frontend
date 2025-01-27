@@ -25,7 +25,7 @@ export type ButtonProps = {
 const BUTTON_TYPE_CLASSES = {
   /* @tw */
   PRIMARY:
-    "border-neutral-10 bg-blue hover:bg-blue-70 text-white disabled:bg-neutral-10 disabled:text-neutral-40",
+    "border-neutral-10 bg-surface-btnColor hover:bg-dark_green text-white disabled:bg-neutral-10 disabled:text-neutral-40",
   /* @tw */
   SECONDARY:
     "border-neutral-10 hover:bg-surface-lighter-grey text-neutral bg-white disabled:text-neutral-20  disabled:bg-white",
@@ -75,7 +75,7 @@ export const Button = ({
       data-size={size}
       data-active={active}
       className={cx(
-        "all:unset box-border flex cursor-pointer items-center justify-center rounded border border-solid px-4 !font-medium drop-shadow-button transition-all disabled:pointer-events-none disabled:cursor-no-drop w-fit",
+        "all:unset box-border flex cursor-pointer items-center justify-center rounded border border-solid px-4  drop-shadow-button transition-all disabled:pointer-events-none disabled:cursor-no-drop w-fit !font-bold",
         BUTTON_TYPE_CLASSES.FONTS,
         BUTTON_TYPE_CLASSES.HEIGHT,
         {

@@ -15,7 +15,7 @@ export const ConditionalLink: FC<IConditionalLinkProps> = ({
   if (condition) {
     return (
       <Link
-        className="text-blue text-body-lg hover:text-blue"
+        className="text-surface-btnColor text-body-lg hover:text-dark_green"
         to={redirect}
       >
         {children}

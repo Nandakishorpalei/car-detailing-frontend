@@ -7,14 +7,16 @@ import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import { useNavigate } from "react-router-dom";
 import { useRoleBasedView } from "../../Hooks/useRoleBasedView";
+import useAuth from "../../Hooks/useAuth";
+import { ConditionalLink } from "../../UI-Components/ConditionalLink/ConditionalLink";
 
-interface INavMenuProps {}
+type NavMenuProps = {};
 
-export const NavMenu: FC<INavMenuProps> = (props) => {
+export const NavMenu = ({}: NavMenuProps) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const navigate = useNavigate();
-  const { isCustomer, isSeller } = useRoleBasedView();
+  const { logout } = useAuth();
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -29,47 +31,26 @@ export const NavMenu: FC<INavMenuProps> = (props) => {
   };
 
   return (
-    <div>
-      <Button
-        id="demo-positioned-button"
-        aria-controls={open ? "demo-positioned-menu" : undefined}
-        aria-haspopup="true"
-        aria-expanded={open ? "true" : undefined}
-        onClick={handleClick}
-      >
-        {open ? <CloseIcon /> : <MenuIcon />}
+    <div className="flex gap-6 sm:gap-3 items-center">
+      <ConditionalLink condition redirect="/services">
+        <Button customType="transparent">
+          <span className="text-surface-navbarText">Services</span>
+        </Button>
+      </ConditionalLink>
+      <ConditionalLink condition redirect="/about">
+        <Button customType="transparent">
+          <span className="text-surface-navbarText">About</span>
+        </Button>
+      </ConditionalLink>
+      <ConditionalLink condition redirect="/contact">
+      <Button customType="transparent">
+        <span className="text-surface-navbarText">Contact</span>
       </Button>
-      <Menu
-        id="demo-positioned-menu"
-        aria-labelledby="demo-positioned-button"
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-        anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "left",
-        }}
-        transformOrigin={{
-          vertical: "top",
-          horizontal: "left",
-        }}
-        className="mt-2"
-      >
-        <MenuItem onClick={() => navigateFromMenu("/files")}>Files</MenuItem>
-        <MenuItem onClick={() => navigateFromMenu("/products")}>
-          Products
-        </MenuItem>
-        {isSeller && (
-          <MenuItem onClick={() => navigateFromMenu("/myproducts")}>
-            My Products
-          </MenuItem>
-        )}
-        {isSeller && (
-          <MenuItem onClick={() => navigateFromMenu("/productupload")}>
-            Upload Product
-          </MenuItem>
-        )}
-      </Menu>
+      </ConditionalLink>
+      
+      <Button customType="primary" size="small" onClick={logout}>
+        Log Out
+      </Button>
     </div>
   );
 };

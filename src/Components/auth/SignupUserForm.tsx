@@ -73,7 +73,7 @@ export const SignupUserForm = ({
                 customType="primary"
                 block
               >
-                submit
+                Submit
               </Button>
               <div className="font-sans text-button text-neutral-80">or</div>
               <GoogleLoginButton />

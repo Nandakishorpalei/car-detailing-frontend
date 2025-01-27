@@ -88,7 +88,6 @@ module.exports = {
 
         "image-preview-overlay":
           "linear-gradient(180deg, #110733 0%, rgba(17, 7, 51, 0.90) 11.46%, rgba(17, 7, 51, 0.50) 35.42%, rgba(17, 7, 51, 0.35) 100%)",
-        "brand-gradient": "linear-gradient(120deg, #d2ffff 0%, #0694c6 100%)",
       },
       screens: { sm: { max: "640px" } },
       minWidth: ({ theme }) => ({
@@ -143,6 +142,12 @@ module.exports = {
         grey: "#F3F3F5",
         "lighter-grey": "#FAFAFB",
         transparent: "transparent",
+        btnColor: "#156f5b",
+        background: "#f3f8f9",
+        pageTitle: "#212121",
+        navbarText: "#424242",
+        pageText: "#6b6b6b",
+        customerFeedbackName: "#f4c67f",
       },
       text: {
         DEFAULT: "#FFFFFF",

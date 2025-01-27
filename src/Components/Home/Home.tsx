@@ -25,7 +25,6 @@ export const Home = () => {
   return (
     <div>
       <Header title="Home" />
-      <Button onClick={showAlert}>Show alert</Button>
       <div className="flex flex-col gap-6 p-12 h-[calc(100vh-65px)] w-screen">
         {data?.user?.map(({ firstName, lastName, email, phone }) => (
           <div className="flex justify-between shadow-card px-12 py-2">
