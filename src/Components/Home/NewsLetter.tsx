@@ -3,14 +3,12 @@ import InstagramIcon from "@mui/icons-material/Instagram";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import { Form, Formik } from "formik";
-import { useState } from "react";
+import { BACKEND_URL } from "../../Constant/auth";
+import { newsLetterSchema } from "../../FormValidations/newsLetterSchema";
+import { useToast } from "../../Hooks/useToast";
 import { Button } from "../../UI-Components/Button/Button";
 import { ConditionalLink } from "../../UI-Components/ConditionalLink/ConditionalLink";
 import { Input } from "../../UI-Components/Input/Input";
-import ConditionalToolTip from "../../UI-Utils/ConditionalTooltip";
-import { useToast } from "../../Hooks/useToast";
-import { newsLetterSchema } from "../../FormValidations/newsLetterSchema";
-import { BACKEND_URL } from "../../Constant/auth";
 
 export const NewsLetter = () => {
   const { alertToast, successToast } = useToast();
@@ -61,7 +59,7 @@ export const NewsLetter = () => {
                 placeholder="Enter your email"
               />
               <Button type="submit" disabled={isSubmitting || !isValid} onClick={submitForm} customType="primary" isLoading={isSubmitting}>
-                Send
+                Subscribe
               </Button>
             </Form>
           );
