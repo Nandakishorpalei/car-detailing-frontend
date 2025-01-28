@@ -39,7 +39,7 @@ export const HeroSection = () => {
             <img
               src={HeroImage}
               alt="HeroImage"
-              className="h-64 w-full"
+              className="w-full"
             />
         </div>
     </>

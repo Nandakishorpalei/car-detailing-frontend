@@ -40,7 +40,7 @@ export const NavMenu = ({}: NavMenuProps) => {
           <span className="text-surface-navbarText">Services</span>
         </Button>
       </ConditionalLink>
-      <ConditionalLink condition redirect="/about">
+      {/* <ConditionalLink condition redirect="/about">
         <Button customType="transparent">
           <span className="text-surface-navbarText">About</span>
         </Button>
@@ -49,7 +49,7 @@ export const NavMenu = ({}: NavMenuProps) => {
       <Button customType="transparent">
         <span className="text-surface-navbarText">Contact</span>
       </Button>
-      </ConditionalLink>
+      </ConditionalLink> */}
       
       {isAuthenticated && (<Button customType="primary" size="small" onClick={logout}>
         Log Out

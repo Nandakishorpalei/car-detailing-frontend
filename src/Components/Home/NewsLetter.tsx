@@ -8,21 +8,50 @@ import { Button } from "../../UI-Components/Button/Button";
 import { ConditionalLink } from "../../UI-Components/ConditionalLink/ConditionalLink";
 import { Input } from "../../UI-Components/Input/Input";
 import ConditionalToolTip from "../../UI-Utils/ConditionalTooltip";
+import { useToast } from "../../Hooks/useToast";
+import { newsLetterSchema } from "../../FormValidations/newsLetterSchema";
+import { BACKEND_URL } from "../../Constant/auth";
 
 export const NewsLetter = () => {
+  const { alertToast, successToast } = useToast();
+
+  const handleSubscribe = async ({ email }: { email: string }) => {
+    try {
+      const response = await fetch(`${BACKEND_URL}/newsletter`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email }),
+      });
+  
+      const data = await response.json();
+  
+      if (response.ok) {
+        successToast({ message: data.message || "Subscribed successfully!" });
+      } else {
+        alertToast({ message: data.message || "Something went wrong!" });
+      }
+    } catch (err: any) {
+      alertToast({ message: err.message || "Something went wrong!" });
+    }
+  };
+  
+
   return (
     <div className="px-[15%] bg-surface-background flex py-8 flex-col gap-4 items-center">
-      <b className="text-[40px] text-text-100">Subscribe to Newsletter</b>
-      <div className="text-body text-text-60">
+      <b className="text-[40px] text-text-100 sm:text-center">Subscribe to Newsletter</b>
+      <div className="text-body text-text-60 sm:text-center">
         Enter your email address to register to our newsletter subscription!
       </div>
       <Formik
         initialValues={{
           email: "",
         }}
-        onSubmit={() => {}}
+        onSubmit={handleSubscribe}
+        validationSchema={newsLetterSchema}
       >
-        {({ isValid, isSubmitting }) => {
+        {({isValid, isSubmitting, submitForm }) => {
           return (
             <Form className="w-2/3 flex-col flex space-y-4 items-center">
               <Input
@@ -30,9 +59,8 @@ export const NewsLetter = () => {
                 label=""
                 name="email"
                 placeholder="Enter your email"
-                disabled
               />
-              <Button type="submit" disabled customType="primary">
+              <Button type="submit" disabled={isSubmitting || !isValid} onClick={submitForm} customType="primary" isLoading={isSubmitting}>
                 Send
               </Button>
             </Form>

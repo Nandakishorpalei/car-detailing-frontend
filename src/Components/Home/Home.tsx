@@ -26,7 +26,7 @@ export const Home = () => {
       <Header title="Home" />
       <div className="flex flex-col gap-16 w-full h-[calc(100vh-65px)] overflow-scroll">
         <HeroSection />
-        <OurServicesSection />
+        <OurServicesSection isInsideServices={false} />
         <FeaturesAndBenefits />
         <NewsLetter />
       </div>

@@ -55,20 +55,20 @@ export const FeaturesAndBenefits = () => {
             <div className="text-subtitle text-text-100">Features</div>
             <div className="space-y-4">
               <ListItem feature="Exterior Detailing" />
-              <ListItem feature="Exterior Detailing" />
-              <ListItem feature="Exterior Detailing" />
-              <ListItem feature="Exterior Detailing" />
-              <ListItem feature="Exterior Detailing" />
+              <ListItem feature="Interior Detailing" />
+              <ListItem feature="Paint Correction" />
+              <ListItem feature="Ceramic Coating" />
+              <ListItem feature="Headlight Restoration" />
             </div>
           </div>
           <div className="space-y-6 w-full">
             <div className="text-subtitle text-text-100">Features</div>
             <div className="space-y-4">
-              <ListItem feature="Exterior Detailing" />
-              <ListItem feature="Exterior Detailing" />
-              <ListItem feature="Exterior Detailing" />
-              <ListItem feature="Exterior Detailing" />
-              <ListItem feature="Exterior Detailing" />
+              <ListItem feature="Affordable Pricing" />
+              <ListItem feature="Improved Car Appearance" />
+              <ListItem feature="Long-Lasting Protection" />
+              <ListItem feature="Expert Detailing Services" />
+              <ListItem feature="Customer Satisfaction Guaranteed" />
             </div>
           </div>
           <img src={FeatureImg} alt="" className="w-full" />
