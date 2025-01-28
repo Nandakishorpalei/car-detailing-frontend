@@ -7,7 +7,7 @@ import FeatureImg from "../../static/images/laptop/FeatureImg.png";
 const ListItem = ({ feature }: { feature: string }) => {
   return (
     <div className="flex items-center gap-4">
-      <AdjustIcon style={{color: "#FFCC00"}} />
+      <AdjustIcon style={{ color: "#FFCC00" }} />
       <div className="text-body text-text-60">{feature}</div>
     </div>
   );
@@ -26,20 +26,20 @@ export const FeaturesAndBenefits = () => {
             <div className="text-subtitle text-text-100">Features</div>
             <div className="space-y-4">
               <ListItem feature="Exterior Detailing" />
-              <ListItem feature="Exterior Detailing" />
-              <ListItem feature="Exterior Detailing" />
-              <ListItem feature="Exterior Detailing" />
-              <ListItem feature="Exterior Detailing" />
+              <ListItem feature="Interior Detailing" />
+              <ListItem feature="Paint Correction" />
+              <ListItem feature="Ceramic Coating" />
+              <ListItem feature="Headlight Restoration" />
             </div>
           </div>
           <div className="space-y-8 w-1/3">
             <div className="text-subtitle text-text-100">Features</div>
             <div className="space-y-4">
-              <ListItem feature="Exterior Detailing" />
-              <ListItem feature="Exterior Detailing" />
-              <ListItem feature="Exterior Detailing" />
-              <ListItem feature="Exterior Detailing" />
-              <ListItem feature="Exterior Detailing" />
+              <ListItem feature="Affordable Pricing" />
+              <ListItem feature="Improved Car Appearance" />
+              <ListItem feature="Long-Lasting Protection" />
+              <ListItem feature="Expert Detailing Services" />
+              <ListItem feature="Customer Satisfaction Guaranteed" />
             </div>
           </div>
           <img src={FeatureImg} alt="" className="w-1/3" />
