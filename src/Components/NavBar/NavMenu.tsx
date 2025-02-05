@@ -44,16 +44,18 @@ export const NavMenu = ({}: NavMenuProps) => {
         <Button customType="transparent">
           <span className="text-surface-navbarText">About</span>
         </Button>
-      </ConditionalLink>
+      </ConditionalLink>*/}
       <ConditionalLink condition redirect="/contact">
-      <Button customType="transparent">
-        <span className="text-surface-navbarText">Contact</span>
-      </Button>
-      </ConditionalLink> */}
-      
-      {isAuthenticated && (<Button customType="primary" size="small" onClick={logout}>
-        Log Out
-      </Button>)}
+        <Button customType="transparent">
+          <span className="text-surface-navbarText">Contact</span>
+        </Button>
+      </ConditionalLink>
+
+      {isAuthenticated && (
+        <Button customType="primary" size="small" onClick={logout}>
+          Log Out
+        </Button>
+      )}
     </div>
   );
 };
