@@ -2,13 +2,13 @@ import React, { FC } from "react";
 import { ReactNode } from "react";
 import { Link } from "react-router-dom";
 interface IConditionalLinkProps {
-  condition: boolean;
+  condition?: boolean;
   redirect: string;
   children: ReactNode | string;
 }
 
 export const ConditionalLink: FC<IConditionalLinkProps> = ({
-  condition,
+  condition = true,
   redirect,
   children,
 }) => {

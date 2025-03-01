@@ -21,7 +21,7 @@ export const OurServicesSection = ({
         <div className="flex items-center justify-between">
           <b className="text-[40px] text-text-100">Our Services</b>
           {!isInsideServices && (
-            <ConditionalLink condition redirect="/services">
+            <ConditionalLink redirect="/services">
               <Button customType="primary">View All Services</Button>
             </ConditionalLink>
           )}
@@ -68,7 +68,7 @@ export const OurServicesSection = ({
         <div className="flex items-center flex-col gap-6">
           <b className="text-[40px] text-text-100">Our Services</b>
           {!isInsideServices && (
-            <ConditionalLink condition redirect="/services">
+            <ConditionalLink redirect="/services">
               <Button customType="primary">View All Services</Button>
             </ConditionalLink>
           )}

@@ -12,6 +12,7 @@ export type ButtonProps = {
     | "transparent"
     | "text"
     | "ghost"
+    | "ghost_icon"
     | "warning"
     | "primary-outlined"
     | "success";
@@ -86,6 +87,7 @@ export const Button = ({
           [`${BUTTON_TYPE_CLASSES.SECONDARY} ${BUTTON_TYPE_CLASSES.ICON}`]:
             customType === "icon",
           [BUTTON_TYPE_CLASSES.TRANSPARENT]: customType === "transparent",
+          [BUTTON_TYPE_CLASSES.GHOST_ICON]: customType === "ghost_icon",
           [BUTTON_TYPE_CLASSES.GHOST_ICON]: customType === "ghost",
           [BUTTON_TYPE_CLASSES.TEXT]: customType === "text",
           [BUTTON_TYPE_CLASSES.PRIMARY_OUTLINED]:

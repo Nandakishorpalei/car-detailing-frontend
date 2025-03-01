@@ -2,17 +2,17 @@
 import React, { useCallback } from "react";
 import { useState } from "react";
 import { useDropzone } from "react-dropzone";
-import { useUploadFileMutation } from "../../store/api/fileUpload";
+import { useUploadFilesMutation } from "../../store/api/fileUpload";
 
 export const FileUpload: React.FC = () => {
   const [uploadedImg, setUploadedImg] = useState<string>();
-  const [uploadFile] = useUploadFileMutation();
+  const [uploadFile] = useUploadFilesMutation();
 
   const onDrop = useCallback(async (acceptedFiles: File[]) => {
     const file = acceptedFiles[0];
 
     const formData = new FormData();
-    formData.append("file", file);
+    acceptedFiles.forEach((file) => formData.append("file", file));
 
     try {
       const response = await uploadFile({ payload: formData }).unwrap();

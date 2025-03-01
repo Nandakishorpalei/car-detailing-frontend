@@ -31,7 +31,7 @@ const INPUT_CLASSNAMES = (
     "w-full flex w-full items-center rounded justify-between border border-solid bg-surface-lighter-grey px-3 text-body font-medium text-text-100 transition-all  focus:bg-surface-transparent focus:outline-none disabled:cursor-no-drop disabled:text-neutral-30",
     {
       "h-12": customSize === "regular",
-      "h-8": customSize === "small",
+      "h-9": customSize === "small",
       "border-red focus:border-red": customType === "error",
       "border-yellow focus:border-yellow": customType === "warning",
       "border-neutral-10 focus:border-blue": customType !== "error",
@@ -225,7 +225,7 @@ export function TextInputWithPrefix({
                   type={type}
                   className={cx("all:unset", {
                     "h-12": customSize === "regular",
-                    "h-8": customSize === "small",
+                    "h-9": customSize === "small",
                     "w-3/4": icon || rightComponent,
                     "w-full": !icon && !rightComponent,
                   })}

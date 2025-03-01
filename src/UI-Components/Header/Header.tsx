@@ -8,7 +8,7 @@ import { ConditionalLink } from "../ConditionalLink/ConditionalLink";
 import { NavMenu } from "../../Components/NavBar/NavMenu";
 import { ProfileMenu } from "../../Components/NavBar/ProfileMenu";
 //@ts-ignore
-import  BrandLogo from "../../static/images/BrandLogoGreen.png"
+import BrandLogo from "../../static/images/BrandLogoGreen.png";
 
 type HeadersProps = {
   right?: ReactNode;
@@ -36,18 +36,22 @@ export const Header = ({
       )}
     >
       <div className="flex w-full items-center justify-between gap-2 sm:flex-wrap">
-        <ConditionalLink condition redirect="/">
-        <img src={BrandLogo} alt="BrandLogo" className="h-12 w-[84px] sm:h-8 sm:w-14 rounded-lg" />
+        <ConditionalLink redirect="/">
+          <img
+            src={BrandLogo}
+            alt="BrandLogo"
+            className="h-12 w-[84px] sm:h-8 sm:w-14 rounded-lg"
+          />
         </ConditionalLink>
         <div className="flex gap-4">
           <NavMenu />
           {isSignin && (
-            <ConditionalLink condition redirect="/signup">
+            <ConditionalLink redirect="/signup">
               <Button customType="primary">Sign Up</Button>
             </ConditionalLink>
           )}
           {isSignup && (
-            <ConditionalLink condition redirect="/signin">
+            <ConditionalLink redirect="/signin">
               <Button customType="primary">Sign In</Button>
             </ConditionalLink>
           )}

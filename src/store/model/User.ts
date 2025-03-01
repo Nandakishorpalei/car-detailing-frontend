@@ -1,10 +1,9 @@
 export interface User {
   createdAt: string;
   email: string;
-  firstName: string;
-  lastName: string;
+  name: string;
   phone: string;
-  role: string;
+  role: "customer" | "admin";
   isPhoneVerified: boolean;
   isMailVerified: boolean;
   _id: string;

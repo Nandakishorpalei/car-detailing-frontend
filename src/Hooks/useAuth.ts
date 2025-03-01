@@ -48,19 +48,6 @@ const useAuth = (): AuthData => {
     dispatch(setAuthToken(newAuthToken));
     dispatch(setUser(newUser));
     dispatch(setAuthenticated(true));
-    const redirectPath = localStorage.getItem(REDIRECT_AFTER_AUTH);
-    localStorage.removeItem(REDIRECT_AFTER_AUTH);
-    if (!newUser.isMailVerified || !newUser.isPhoneVerified) {
-      window.location.href = "/verifyuser";
-    } else if (redirectPath && RESTRICTED_ROUTES.includes(redirectPath)) {
-      window.location.href = "/";
-    } else {
-      if (redirectPath) {
-        window.location.href = redirectPath;
-      } else {
-        window.location.href = "/";
-      }
-    }
   };
 
   // Clear local storage and reset state
@@ -70,13 +57,13 @@ const useAuth = (): AuthData => {
     dispatch(setAuthToken(null));
     dispatch(setUser(null));
     dispatch(setAuthenticated(false));
-    navigate("/signin");
+    navigate("/");
   };
 
   return {
     login,
     logout,
-    isLoading:false,
+    isLoading: false,
   };
 };
 

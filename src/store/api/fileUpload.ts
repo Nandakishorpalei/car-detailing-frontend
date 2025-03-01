@@ -1,11 +1,10 @@
 import { emptyApi } from "./emptyApi";
-import qs from "qs";
 import { User } from "../model/User";
 import { File } from "../model/File";
 
 export const extendedApi = emptyApi.injectEndpoints({
   endpoints: (build) => ({
-    uploadFile: build.mutation<File, { payload: any }>({
+    uploadFiles: build.mutation<{ files: File[] }, { payload: any }>({
       query: ({ payload }) => {
         return {
           url: `/upload`,
@@ -32,7 +31,7 @@ export const extendedApi = emptyApi.injectEndpoints({
 });
 
 export const {
-  useUploadFileMutation,
+  useUploadFilesMutation,
   useGetFilesQuery,
   useDeleteFileMutation,
 } = extendedApi;

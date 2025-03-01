@@ -1,21 +1,26 @@
 import * as RDialog from "@radix-ui/react-dialog";
 import cx from "classnames";
-import { forwardRef, Fragment, HTMLAttributes } from "react";
-import { CloseIcon } from "../../Icons/CloseIcon";
+import { Form, Formik, FormikConfig, FormikValues } from "formik";
+import { forwardRef, HTMLAttributes, ReactNode, useEffect } from "react";
 import { Button } from "../Button/Button";
 
 enum ModalSize {
-  small = "w-[440px]",
-  regular = "w-[560px]",
-  large = "w-[680px]",
-  xl = "w-[960px]",
+  small = "t-w-[440px]",
+  regular = "t-w-[560px]",
+  large = "t-w-[680px]",
+  xl = "t-w-[960px]",
+  xxl = "t-w-[1140px]",
+  xxxl = "t-w-screen",
+  fullscreen = "t-w-full t-h-full",
 }
 
 type ModalProps = {
-  children?: React.ReactNode;
+  asChild?: boolean;
+  children?: ReactNode;
   size?: keyof typeof ModalSize;
-  props?: RDialog.DialogContentProps;
-};
+  useCustomOverlay?: boolean;
+  className?: string;
+} & RDialog.DialogContentProps;
 
 const preventClose = (e: React.KeyboardEvent<HTMLDivElement>) => {
   if (e.key === " " || e.key === "Spacebar" || e.key === "Enter") {
@@ -28,7 +33,7 @@ const Header = (props: HTMLAttributes<HTMLDivElement>) => {
     <div
       {...props}
       className={cx(
-        "flex flex-shrink-0 items-center justify-between border-0 border-b border-solid border-b-neutral-0 py-4 pl-6 pr-4",
+        "t-flex t-flex-shrink-0 t-items-center t-justify-between t-border-0 t-border-b t-border-solid t-border-b-neutral-0 t-py-4 t-pl-8 t-pr-4",
         props.className || ""
       )}
     />
@@ -36,15 +41,19 @@ const Header = (props: HTMLAttributes<HTMLDivElement>) => {
 };
 
 const Title = (
-  props: RDialog.DialogTitleProps & React.RefAttributes<HTMLHeadingElement>
+  props: RDialog.DialogTitleProps &
+    React.RefAttributes<HTMLHeadingElement> & { titleIcon?: JSX.Element }
 ) => {
   return (
     <RDialog.Title
       asChild
-      className={cx("mb-0 text-subtitle" || props.className || "")}
+      className={cx("t-mb-0 t-text-h5", props.className || "")}
       {...props}
     >
-      <h5>{props?.children}</h5>
+      <span className="t-flex t-justify-between">
+        {props?.children}
+        {props?.titleIcon}
+      </span>
     </RDialog.Title>
   );
 };
@@ -54,7 +63,7 @@ const Subtitle = (props: RDialog.DialogDescriptionProps) => {
     <RDialog.Description
       {...props}
       className={cx(
-        "mb-0 mt-2 text-subtext-sm text-neutral-30",
+        "t-mb-0 t-mt-1 t-text-subtext-sm t-text-neutral-30",
         props.className || ""
       )}
     />
@@ -62,18 +71,9 @@ const Subtitle = (props: RDialog.DialogDescriptionProps) => {
 };
 
 const Close = (props: RDialog.DialogCloseProps) => (
-  <RDialog.Close
-    {...props}
-    className={cx(
-      "all:unset -translate-y-[6px] self-start",
-      props.className || ""
-    )}
-    asChild
-  >
-    <Button customType="ghost" size="small">
-      <div className="h-4 w-4 mt-3">
-        <CloseIcon />
-      </div>
+  <RDialog.Close {...props} asChild>
+    <Button customType="ghost_icon" size="small" title="Close Modal">
+      X
     </Button>
   </RDialog.Close>
 );
@@ -82,7 +82,7 @@ const Body = (props: HTMLAttributes<HTMLDivElement>) => {
   return (
     <div
       {...props}
-      className={cx("overflow-scroll px-8 py-5", props.className || "")}
+      className={cx("t-overflow-auto t-px-8 t-py-5", props.className || "")}
     />
   );
 };
@@ -92,7 +92,7 @@ const Footer = (props: HTMLAttributes<HTMLDivElement>) => {
     <div
       {...props}
       className={cx(
-        "flex-shrink-0 px-6 py-4 border-0 border-t border-solid border-neutral-0",
+        "t-flex-shrink-0 t-px-6 t-py-4 t-border-0 t-border-t t-border-solid t-border-t-neutral-0",
         props.className || ""
       )}
     />
@@ -100,16 +100,29 @@ const Footer = (props: HTMLAttributes<HTMLDivElement>) => {
 };
 
 const Content = forwardRef<HTMLDivElement, ModalProps>(
-  ({ children, size = "regular", props }: ModalProps, forwardedRef) => {
+  (
+    {
+      children,
+      useCustomOverlay = false,
+      size = "regular",
+      className = "",
+      ...rest
+    }: ModalProps,
+    forwardedRef
+  ) => {
     return (
       <RDialog.Portal>
-        <Overlay />
+        {useCustomOverlay ? <CustomOverlay /> : <Overlay />}
         <RDialog.Content
-          {...props}
-          onKeyDown={preventClose}
+          {...rest}
           className={cx(
-            "fixed left-1/2 top-1/2 z-modal flex max-h-[680px] -translate-x-1/2 -translate-y-1/2 flex-col rounded-lg bg-white",
-            ModalSize[size]
+            "t-fixed t-left-1/2 t-top-1/2 t-z-modal t-flex -t-translate-x-1/2 -t-translate-y-1/2 t-flex-col t-bg-white ",
+            ModalSize[size],
+            className,
+            {
+              "t-rounded-lg t-max-h-[80vh] t-max-w-[90vw] t-container":
+                size !== "fullscreen",
+            }
           )}
           ref={forwardedRef}
         >
@@ -120,17 +133,82 @@ const Content = forwardRef<HTMLDivElement, ModalProps>(
   }
 );
 
-const Overlay = ({
-  ...props
-}: RDialog.DialogOverlayProps & React.RefAttributes<HTMLDivElement>) => (
-  <RDialog.Overlay
-    {...props}
-    className={cx(
-      "fixed inset-0 z-overlay bg-text-100 opacity-20",
-      props.className || ""
-    )}
-  />
+const CustomOverlay = (
+  props: RDialog.DialogOverlayProps & React.RefAttributes<HTMLDivElement>
+) => {
+  useEffect(() => {
+    document.body.classList.add("pointer-events-none");
+    return () => {
+      document.body.classList.remove("pointer-events-none");
+    };
+  }, []);
+
+  return (
+    <div
+      className={cx(
+        "t-fixed t-inset-0 t-z-modal t-bg-text-100 t-opacity-20",
+        props.className || ""
+      )}
+    />
+  );
+};
+
+const FooterButtonGroup = ({ children }: { children: ReactNode }) => (
+  <Footer>
+    <div className="t-flex t-gap-2 t-items-center t-justify-end">
+      {children}
+    </div>
+  </Footer>
 );
+
+const Overlay = forwardRef(
+  ({
+    ...props
+  }: RDialog.DialogOverlayProps & React.RefAttributes<HTMLDivElement>) => (
+    <RDialog.Overlay
+      {...props}
+      className={cx(
+        "t-fixed t-inset-0 t-z-modal t-bg-text-100 t-opacity-20",
+        props.className || ""
+      )}
+    />
+  )
+);
+
+const FormikRoot = <T extends FormikValues>(
+  props: FormikConfig<T> & Omit<RDialog.DialogProps, "children">
+) => {
+  const {
+    open,
+    onOpenChange,
+    defaultOpen,
+    modal,
+    children,
+    initialValues,
+    ...rest
+  } = props;
+
+  if (!open) {
+    return null;
+  }
+
+  return (
+    <Formik {...rest} initialValues={initialValues}>
+      {(state) => (
+        <Form>
+          <Modal.Root
+            open={open}
+            onOpenChange={onOpenChange}
+            defaultOpen={defaultOpen}
+            modal={modal}
+          >
+            {typeof children === "function" ? children(state) : children}
+          </Modal.Root>
+        </Form>
+      )}
+    </Formik>
+  );
+};
 
 const Modal = {
   ...RDialog,
@@ -140,8 +218,12 @@ const Modal = {
   Close,
   Body,
   Footer,
+  FooterButtonGroup,
   Content,
+  RawContent: RDialog.Content,
+  RawClose: RDialog.Close,
   Overlay,
+  FormikRoot,
 };
 
 export default Modal;

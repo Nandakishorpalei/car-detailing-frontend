@@ -20,7 +20,7 @@ export const extendedApi = emptyApi.injectEndpoints({
         return {
           url: `/product/upload`,
           method: "post",
-          body: formData,
+          body: payload,
         };
       },
       invalidatesTags: ["Product"],

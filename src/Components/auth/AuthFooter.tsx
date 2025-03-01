@@ -16,7 +16,7 @@ export const AuthFooter: FC<IProps> = ({ redirectTo }) => {
   return (
     <div className="flex gap-1 justify-center mt-8">
       <div className="text-body text-text-100">{actionText}</div>
-      <ConditionalLink condition redirect={redirectPath}>
+      <ConditionalLink redirect={redirectPath}>
         <div className="text-body"> {linkText}</div>
       </ConditionalLink>
     </div>
