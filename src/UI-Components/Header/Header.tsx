@@ -8,7 +8,7 @@ import { ConditionalLink } from "../ConditionalLink/ConditionalLink";
 import { NavMenu } from "../../Components/NavBar/NavMenu";
 import { ProfileMenu } from "../../Components/NavBar/ProfileMenu";
 //@ts-ignore
-import BrandLogo from "../../static/images/BrandLogo.jpg";
+import BrandLogo from "../../static/images/BrandLogo.png";
 
 type HeadersProps = {
   right?: ReactNode;
