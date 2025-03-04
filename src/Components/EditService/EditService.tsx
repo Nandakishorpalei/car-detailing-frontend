@@ -10,26 +10,30 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { serviceDetialSchema } from "../../FormValidations/ServiceDetailSchema";
 import { useToast } from "../../Hooks/useToast";
+import { CloseIcon } from "../../Icons/CloseIcon";
 import { useGetAllCarsQuery } from "../../store/api/cars";
-import { useAddServiceMutation } from "../../store/api/serviceDetails";
+import { useUpdateServiceDetailsMutation } from "../../store/api/serviceDetails";
 import { useGetAllUsersQuery } from "../../store/api/user";
 import { File } from "../../store/model/File";
-import { ServiceDetailsPayload } from "../../store/model/ServiceDetails";
+import {
+  ServiceDetailsPayload,
+  ServiceDetailsResponse,
+} from "../../store/model/ServiceDetails";
 import { RootState } from "../../store/store";
 import { Button } from "../../UI-Components/Button/Button";
 import { Combobox } from "../../UI-Components/Combobox/Combobox";
 import { FileUpload } from "../../UI-Components/FileUpload/FileUpload";
 import { Input } from "../../UI-Components/Input/Input";
 import { SelectDropDown } from "../../UI-Components/Select/Select";
-import { useNavigate } from "react-router-dom";
-import { CloseIcon } from "../../Icons/CloseIcon";
 
-export const AddService = ({
+export const EditService = ({
   open,
-  setOpen,
+  onClose,
+  service,
 }: {
   open: boolean;
-  setOpen: (val: boolean) => void;
+  onClose: () => void;
+  service: ServiceDetailsResponse;
 }) => {
   const { alertToast, successToast } = useToast();
   const user = useSelector((state: RootState) => state.auth.user);
@@ -37,54 +41,57 @@ export const AddService = ({
     skip: user?.role !== "admin",
   });
   const { data: carsData } = useGetAllCarsQuery();
-  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
-  const [addNewService, { isLoading }] = useAddServiceMutation();
-  const navigate = useNavigate();
+  const [selectedFiles, setSelectedFiles] = useState<File[]>(
+    service.pre_service_photos || []
+  );
+  const [editService, { isLoading }] = useUpdateServiceDetailsMutation();
 
-  const createService = async (
+  const handleEditService = async (
     values: Omit<ServiceDetailsPayload, "pre_service_photos">
   ) => {
     try {
-      await addNewService({
+      await editService({
         ...values,
         pre_service_photos: selectedFiles,
+        serviceId: service._id,
       }).unwrap();
       successToast({ message: "Service added successfully!" });
-      setOpen(false);
-      navigate("/myservices");
+      onClose();
     } catch (error: any) {
       alertToast({ message: error.message || "Something went wrong!" });
     }
   };
 
-  const handleClose = () => {
-    setOpen(false);
-  };
-
   return (
-    <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm">
+    <Dialog
+      open={open}
+      onClose={onClose}
+      fullWidth
+      maxWidth="sm"
+      onClick={(e) => e.stopPropagation()}
+    >
       <DialogTitle className="border-b border-neutral-10 text-h4 flex justify-between items-center">
-        Add Service
-        <IconButton onClick={handleClose} size="small">
+        Edit Service
+        <IconButton onClick={onClose} size="small">
           <CloseIcon />
         </IconButton>
       </DialogTitle>
       <Formik
         initialValues={{
-          model: "",
-          registration_number: "",
-          color: "",
-          year: "",
-          username: user?.name || "",
-          user_id: user?._id || "",
+          model: service.model,
+          registration_number: service.car_details.registration_number,
+          color: service.color,
+          year: service.year,
+          username: service.user_details.name,
+          user_id: service.user_details._id,
         }}
-        onSubmit={createService}
+        onSubmit={handleEditService}
         validationSchema={serviceDetialSchema}
         validateOnBlur={false}
         validateOnChange
         validateOnMount={false}
       >
-        {({ submitForm, setFieldValue }) => (
+        {({ submitForm, setFieldValue, values }) => (
           <Form className="m-0">
             <DialogContent className="space-y-4 overflow-scroll max-h-[440px]">
               {user?.role === "admin" && (
@@ -92,6 +99,7 @@ export const AddService = ({
                   label="User"
                   name="user"
                   block
+                  defaultValue={values.user_id}
                   onChange={(e) => {
                     const selectedUser = usersData?.users.find(
                       (user) => user._id === e.target.value
@@ -115,6 +123,7 @@ export const AddService = ({
                 name="registration_number"
                 label="Registration Number"
                 required
+                defaultValue={service.car_details.registration_number}
                 options={
                   carsData?.cars?.map((car) => ({
                     label: car.registration_number,
@@ -166,7 +175,7 @@ export const AddService = ({
               />
             </DialogContent>
             <DialogActions className="border border-l-0 border-r-0 border-b-0 border-neutral-10 py-3 px-6">
-              <Button onClick={handleClose} color="primary">
+              <Button onClick={onClose} color="primary">
                 Cancel
               </Button>
               <Button

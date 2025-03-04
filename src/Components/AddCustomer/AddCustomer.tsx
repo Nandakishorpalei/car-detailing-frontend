@@ -1,56 +1,50 @@
-import * as React from "react";
-import { Formik, Form, FormikValues } from "formik";
-import { signinUserFormSchema } from "../../FormValidations/signinUserFormValidation";
-import { Input } from "../../UI-Components/Input/Input";
-import { Button } from "../../UI-Components/Button/Button";
-import { PhoneNumberInput } from "../../UI-Components/PhoneInput/PhoneInput";
-import { phoneNumberSchema } from "../../FormValidations/PhoneNumberSchema";
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  IconButton,
+} from "@mui/material";
+import axios from "axios";
 import {
   ConfirmationResult,
   RecaptchaVerifier,
   signInWithPhoneNumber,
 } from "firebase/auth";
-import { auth } from "../../firebase/setup";
+import { Form, Formik, FormikValues } from "formik";
 import { useState } from "react";
-import useAuth from "../../Hooks/useAuth";
-import axios from "axios";
 import { BACKEND_URL } from "../../Constant/auth";
+import { auth } from "../../firebase/setup";
+import { phoneNumberSchema } from "../../FormValidations/PhoneNumberSchema";
 import { useToast } from "../../Hooks/useToast";
-import {
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  IconButton,
-} from "@mui/material";
+import { Button } from "../../UI-Components/Button/Button";
+import { Input } from "../../UI-Components/Input/Input";
+import { PhoneNumberInput } from "../../UI-Components/PhoneInput/PhoneInput";
+import { usersApi } from "../../store/api/user";
+import { useDispatch } from "react-redux";
 import { CloseIcon } from "../../Icons/CloseIcon";
 
-export const UserDetails = ({
+export const AddCustomer = ({
   open,
   setOpen,
-  disableClose,
 }: {
   open: boolean;
   setOpen?: (val: boolean) => void;
-  disableClose?: boolean;
 }) => {
   const [user, setUser] = useState<null | ConfirmationResult>(null);
   const [isLoading, setLoading] = useState<boolean>(false);
-  const { login } = useAuth();
-  const { alertToast } = useToast();
+  const { alertToast, successToast } = useToast();
+  const dispatch = useDispatch();
 
   const handleClose = () => {
-    if (!disableClose) {
-      setOpen?.(false);
-    }
+    setOpen?.(false);
   };
 
   const sendOtp = async (values: FormikValues) => {
     try {
-      console.log({ values });
       setLoading(true);
       const recaptcha = new RecaptchaVerifier(auth, "recaptcha", {});
-      console.log({ recaptcha });
+
       const phoneNumber = "+" + values.phone;
       const confirmation = await signInWithPhoneNumber(
         auth,
@@ -58,9 +52,7 @@ export const UserDetails = ({
         recaptcha
       );
 
-      console.log(confirmation);
       setUser(confirmation);
-      setOpen?.(false);
     } catch (error: any) {
       alertToast({ message: error.message || "Something went wrong!" });
     }
@@ -71,15 +63,16 @@ export const UserDetails = ({
     try {
       setLoading(true);
       const result = user?.confirm(values.otp);
-      console.log({ result });
 
       const payload = {
         name: values.name,
         phone: values.phone,
       };
 
-      const { data } = await axios.post(BACKEND_URL + "/signin", payload);
-      login({ newAuthToken: data.token, newUser: data.user });
+      await axios.post(BACKEND_URL + "/signin", payload);
+      successToast({ message: "Customer added successfully!" });
+      dispatch(usersApi.util.invalidateTags(["Users"]));
+      setOpen?.(false);
     } catch (error: any) {
       alertToast({ message: error.message || "Something went wrong!" });
     }
@@ -122,11 +115,9 @@ export const UserDetails = ({
               ></div>
             </DialogContent>
             <DialogActions className="border border-l-0 border-r-0 border-b-0 border-neutral-10 py-3 px-6">
-              {!disableClose && (
-                <Button onClick={handleClose} color="primary">
-                  Cancel
-                </Button>
-              )}
+              <Button onClick={handleClose} color="primary">
+                Cancel
+              </Button>
               <Button
                 onClick={submitForm}
                 customType="primary"

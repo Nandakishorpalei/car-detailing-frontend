@@ -1,9 +1,9 @@
 import { emptyApi } from "./emptyApi";
 import { User } from "../model/User";
 
-const extendedApi = emptyApi.injectEndpoints({
+export const usersApi = emptyApi.injectEndpoints({
   endpoints: (build) => ({
-    getAllUsers: build.query<{ user: User[] }, void>({
+    getAllUsers: build.query<{ users: User[] }, void>({
       query: () => {
         return {
           url: `/users`,
@@ -14,4 +14,4 @@ const extendedApi = emptyApi.injectEndpoints({
   }),
 });
 
-export const { useGetAllUsersQuery } = extendedApi;
+export const { useGetAllUsersQuery } = usersApi;

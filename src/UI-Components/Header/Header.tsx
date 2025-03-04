@@ -8,7 +8,7 @@ import { ConditionalLink } from "../ConditionalLink/ConditionalLink";
 import { NavMenu } from "../../Components/NavBar/NavMenu";
 import { ProfileMenu } from "../../Components/NavBar/ProfileMenu";
 //@ts-ignore
-import BrandLogo from "../../static/images/BrandLogoGreen.png";
+import BrandLogo from "../../static/images/BrandLogo.jpg";
 
 type HeadersProps = {
   right?: ReactNode;
@@ -31,7 +31,7 @@ export const Header = ({
   return (
     <div
       className={classNames(
-        `sticky top-0 z-header gap-4 bg-surface px-[15%] sm:px-[4%] py-3 sm:flex-wrap`,
+        `sticky top-0 z-header gap-4 bg-surface px-[15%] sm:px-[4%] py-0 sm:py-1 sm:flex-wrap`,
         className || ""
       )}
     >
@@ -40,7 +40,7 @@ export const Header = ({
           <img
             src={BrandLogo}
             alt="BrandLogo"
-            className="h-12 w-[84px] sm:h-8 sm:w-14 rounded-lg"
+            className="h-14 w-[64px] sm:h-10 sm:w-10 rounded-lg"
           />
         </ConditionalLink>
         <div className="flex gap-4">

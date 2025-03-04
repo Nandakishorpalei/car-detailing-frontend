@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Field } from "formik";
 import { Combobox as HeadlessCombobox } from "@headlessui/react";
 import classNames from "classnames";
@@ -15,12 +15,14 @@ type ComboboxProps = {
   onChange?: (value: string) => void;
   required?: boolean;
   name: string;
+  defaultValue?: string;
 };
 
 export const Combobox = ({
   label,
   options,
   onChange,
+  defaultValue,
   ...props
 }: ComboboxProps) => {
   const [query, setQuery] = useState("");
@@ -30,8 +32,22 @@ export const Combobox = ({
     query === ""
       ? options
       : options.filter((option) =>
-          option.label.toLowerCase().includes(query.toLowerCase())
+          option.label.toLowerCase().includes(query?.toLowerCase())
         );
+
+  useEffect(() => {
+    if (defaultValue) {
+      const selectedOption = options.find(
+        (option) => option.value === defaultValue
+      );
+      console.log({ options, defaultValue, selectedOption });
+      setSelected(selectedOption?.value || defaultValue);
+      setQuery(selectedOption?.label || "");
+      onChange?.(selectedOption?.value || "");
+    }
+  }, [defaultValue]);
+
+  console.log(defaultValue, selected);
 
   return (
     <div className={classNames("relative", { "block w-full": props.block })}>
@@ -56,6 +72,10 @@ export const Combobox = ({
                 //@ts-ignore
                 const newValue = selectedOption?.value || selectedOption;
                 setSelected(newValue);
+                setQuery(
+                  options.find((option) => option.value === newValue)?.label ||
+                    newValue
+                );
                 form.setFieldValue(field.name, newValue);
                 onChange?.(newValue || "");
               }}
@@ -69,11 +89,16 @@ export const Combobox = ({
                       "border-neutral-10": !hasError,
                     }
                   )}
-                  onChange={(e) => setQuery(e.target.value)}
+                  onChange={(e) => {
+                    setQuery(e.target.value);
+                    setSelected(e.target.value);
+                    form.setFieldValue(field.name, e.target.value);
+                    onChange?.(e.target.value || "");
+                  }}
                   value={query}
                   placeholder="Type or select an option"
                 />
-                <HeadlessCombobox.Options className="absolute z-10 mt-1 w-full bg-white border rounded shadow-lg">
+                <HeadlessCombobox.Options className="absolute z-10 mt-1 w-full bg-white border border-solid border-neutral-10 rounded shadow-lg">
                   {filteredOptions.length > 0 &&
                     filteredOptions.map((option) => (
                       <HeadlessCombobox.Option
@@ -84,19 +109,6 @@ export const Combobox = ({
                         {option.label}
                       </HeadlessCombobox.Option>
                     ))}
-
-                  {filteredOptions.length == 0 && query && (
-                    <div
-                      className="p-2 text-gray-500 cursor-pointer"
-                      onClick={() => {
-                        setSelected(query);
-                        form.setFieldValue(field.name, query);
-                        onChange?.(query);
-                      }}
-                    >
-                      Create "{query}"
-                    </div>
-                  )}
                 </HeadlessCombobox.Options>
               </div>
             </HeadlessCombobox>

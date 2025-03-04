@@ -1,21 +1,30 @@
+import classNames from "classnames";
 import React, { FC } from "react";
 import { ReactNode } from "react";
 import { Link } from "react-router-dom";
-interface IConditionalLinkProps {
+
+type ConditionalLinkProps = {
   condition?: boolean;
   redirect: string;
+  className?: string;
   children: ReactNode | string;
-}
+};
 
-export const ConditionalLink: FC<IConditionalLinkProps> = ({
+export const ConditionalLink = ({
   condition = true,
   redirect,
+  className = "",
   children,
-}) => {
+}: ConditionalLinkProps) => {
   if (condition) {
     return (
       <Link
-        className="text-surface-btnColor text-body-lg hover:text-dark_green"
+        className={classNames(
+          "text-surface-btnColor text-body-lg hover:text-dark_green",
+          {
+            [className]: Boolean(className),
+          }
+        )}
         to={redirect}
       >
         {children}

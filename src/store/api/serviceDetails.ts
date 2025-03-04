@@ -3,6 +3,7 @@ import {
   ServiceDetailsPayload,
   ServiceDetailsResponse,
 } from "../model/ServiceDetails";
+import { File } from "../model/File";
 
 export const extendedApi = emptyApi.injectEndpoints({
   endpoints: (build) => ({
@@ -12,8 +13,22 @@ export const extendedApi = emptyApi.injectEndpoints({
     >({
       query: (payload) => {
         return {
-          url: `/services/add`,
+          url: `/services`,
           method: "POST",
+          body: payload,
+        };
+      },
+      invalidatesTags: ["Services"],
+    }),
+
+    updateServiceDetails: build.mutation<
+      { serviceDetails: ServiceDetailsResponse },
+      ServiceDetailsPayload & { serviceId: string }
+    >({
+      query: (payload) => {
+        return {
+          url: `/services/${payload.serviceId}`,
+          method: "PUT",
           body: payload,
         };
       },
@@ -27,7 +42,7 @@ export const extendedApi = emptyApi.injectEndpoints({
         model?: string;
         color?: string;
         search?: string;
-        approval_status?: "created" | "approved" | "rejected";
+        approval_status?: "pending" | "in_progress" | "completed" | "rejected";
       }
     >({
       query: ({ username, model, color, search, approval_status } = {}) => ({
@@ -89,18 +104,23 @@ export const extendedApi = emptyApi.injectEndpoints({
       providesTags: ["FilterOptions"],
     }),
 
-    approveService: build.mutation<
+    updateService: build.mutation<
       {
         success: boolean;
-        message: string;
         serviceDetails: ServiceDetailsResponse;
       },
-      { serviceId: string; action: "approve" | "reject" }
+      {
+        serviceId: string;
+        payload: {
+          work_status?: "in_progress" | "completed" | "rejected";
+          post_service_photos?: File[];
+        };
+      }
     >({
-      query: ({ serviceId, action }) => ({
-        url: `/services/${serviceId}/approve`,
-        method: "PUT",
-        body: { action }, // Pass the action (approve/reject)
+      query: ({ serviceId, payload }) => ({
+        url: `/services/${serviceId}`,
+        method: "PATCH",
+        body: payload,
       }),
       invalidatesTags: ["Services"],
     }),
@@ -114,5 +134,6 @@ export const {
   useDeleteServiceMutation,
   useGetServiceByIdQuery,
   useGetFilterOptionsQuery,
-  useApproveServiceMutation, // New hook for the approve/reject API
+  useUpdateServiceMutation,
+  useUpdateServiceDetailsMutation,
 } = extendedApi;

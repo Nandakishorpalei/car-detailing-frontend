@@ -36,7 +36,7 @@ export function SelectDropDown({ label, ...props }: SelectDropDownI) {
           return (
             <>
               <select
-                className={`all:unset form-input w-full box-border  flex h-[48px] items-center justify-center rounded border border-solid font-sans disabled:cursor-not-allowed disabled:text-neutral-30 focus:bg-surface-transparent focus:outline-none focus:border-blue ${
+                className={`all:unset form-input w-full box-border  flex h-10 items-center justify-center rounded border border-solid font-sans disabled:cursor-not-allowed disabled:text-neutral-30 focus:bg-surface-transparent focus:outline-none focus:border-blue ${
                   hasError ? "border-red" : "border-neutral-10"
                 } border-neutral-10 bg-surface-lighter-grey px-4 pr-5 text-body !font-medium text-text-100 transition-all`}
                 {...{ ...field, ...props }}

@@ -40,7 +40,7 @@ const BUTTON_TYPE_CLASSES = {
   HEIGHT:
     "data-[size=regular]:h-10 data-[size=small]:h-8 data-[size=large]:h-12",
   /* @tw */
-  ICON: "border-neutral-10 data-[size=regular]:min-w-10 data-[size=small]:min-w-8 data-[size=large]:min-w-12 !px-0",
+  ICON: "border-neutral-10 data-[size=regular]:min-w-10 data-[size=small]:min-w-8 data-[size=large]:min-w-12 !px-0 rounded-full",
   /* @tw */
   FONTS:
     "data-[size=regular]:text-body data-[size=small]:text-body-sm data-[size=large]:text-body-lg",

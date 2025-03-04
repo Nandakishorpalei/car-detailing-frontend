@@ -5,15 +5,14 @@ import { User } from "./User";
 export type ServiceDetailsResponse = {
   _id: string;
   user_details: User;
-  model: string; // Car model (e.g., Toyota Corolla)
-  registration_number: string; // License plate number
-  color: string; // Car color
-  year: string; // Year of manufacture
-  pre_service_photos: File[]; // Uploaded photos
-  created_at: string; // ISO date string for creation time
+  model: string;
+  color: string;
+  year: string;
+  pre_service_photos: File[];
+  post_service_photos: File[];
+  created_at: string;
   car_details: Car;
-  approval_status: "created" | "approved" | "rejected";
-  work_status: "pending" | "in_progress" | "completed";
+  work_status: "pending" | "in_progress" | "completed" | "rejected";
 };
 
 export type ServiceDetailsPayload = {

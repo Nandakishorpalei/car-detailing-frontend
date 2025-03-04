@@ -13,6 +13,7 @@ import Loader from "./UI-Components/Loader/Loader";
 import { ToastUI } from "./UI-Components/Toast/Toast";
 import { MyServices } from "./Components/MyServices/MyServices";
 import { AllServices } from "./Components/AllServies/AllServices";
+import { ServiceDetails } from "./Components/ServiceDetails/ServiceDetails";
 
 function App() {
   const { isLoading } = useAuth();
@@ -58,6 +59,7 @@ function App() {
 
         <Route path="/" element={<Home />} />
         <Route path="/explore" element={<Explore />} />
+        <Route path="/myservices/:id" element={<ServiceDetails />} />
         <Route
           path="/myservices"
           element={user?.role === "admin" ? <AllServices /> : <MyServices />}
