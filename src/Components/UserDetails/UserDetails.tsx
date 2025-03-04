@@ -14,7 +14,6 @@ import { auth } from "../../firebase/setup";
 import { useState } from "react";
 import useAuth from "../../Hooks/useAuth";
 import axios from "axios";
-import { BACKEND_URL } from "../../Constant/auth";
 import { useToast } from "../../Hooks/useToast";
 import {
   Dialog,
@@ -78,7 +77,10 @@ export const UserDetails = ({
         phone: values.phone,
       };
 
-      const { data } = await axios.post(BACKEND_URL + "/signin", payload);
+      const { data } = await axios.post(
+        process.env.NODE_APP_BASE_URL + "/signin",
+        payload
+      );
       login({ newAuthToken: data.token, newUser: data.user });
     } catch (error: any) {
       alertToast({ message: error.message || "Something went wrong!" });

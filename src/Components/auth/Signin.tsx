@@ -1,6 +1,5 @@
 import axios from "axios";
 import React from "react";
-import { BACKEND_URL } from "../../Constant/auth";
 import useAuth from "../../Hooks/useAuth";
 import { usePageTitle } from "../../Hooks/usePageTitle";
 import { Card } from "../../UI-Components/Card/Card";
@@ -12,7 +11,10 @@ export const Signin = () => {
   const { login } = useAuth(); // Destructure the login function
   const handleSubmit = async (payload: { email: string; password: string }) => {
     try {
-      const { data } = await axios.post(BACKEND_URL + "/signin", payload);
+      const { data } = await axios.post(
+        process.env.NODE_APP_BASE_URL + "/signin",
+        payload
+      );
       login({ newAuthToken: data.token, newUser: data.user });
     } catch (e: any) {
       sweetAlert(e?.response?.data?.message);

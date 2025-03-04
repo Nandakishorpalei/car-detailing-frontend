@@ -3,7 +3,6 @@ import InstagramIcon from "@mui/icons-material/Instagram";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import { Form, Formik } from "formik";
-import { BACKEND_URL } from "../../Constant/auth";
 import { newsLetterSchema } from "../../FormValidations/newsLetterSchema";
 import { useToast } from "../../Hooks/useToast";
 import { Button } from "../../UI-Components/Button/Button";
@@ -15,16 +14,19 @@ export const NewsLetter = () => {
 
   const handleSubscribe = async ({ email }: { email: string }) => {
     try {
-      const response = await fetch(`${BACKEND_URL}/newsletter`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email }),
-      });
-  
+      const response = await fetch(
+        `${process.env.NODE_APP_BASE_URL}/newsletter`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email }),
+        }
+      );
+
       const data = await response.json();
-  
+
       if (response.ok) {
         successToast({ message: data.message || "Subscribed successfully!" });
       } else {
@@ -34,11 +36,12 @@ export const NewsLetter = () => {
       alertToast({ message: err.message || "Something went wrong!" });
     }
   };
-  
 
   return (
     <div className="px-[15%] bg-surface-background flex py-8 flex-col gap-4 items-center">
-      <b className="text-[40px] text-text-100 sm:text-center">Subscribe to Newsletter</b>
+      <b className="text-[40px] text-text-100 sm:text-center">
+        Subscribe to Newsletter
+      </b>
       <div className="text-body text-text-60 sm:text-center">
         Enter your email address to register to our newsletter subscription!
       </div>
@@ -49,7 +52,7 @@ export const NewsLetter = () => {
         onSubmit={handleSubscribe}
         validationSchema={newsLetterSchema}
       >
-        {({isValid, isSubmitting, submitForm }) => {
+        {({ isValid, isSubmitting, submitForm }) => {
           return (
             <Form className="w-2/3 flex-col flex space-y-4 items-center">
               <Input
@@ -58,7 +61,13 @@ export const NewsLetter = () => {
                 name="email"
                 placeholder="Enter your email"
               />
-              <Button type="submit" disabled={isSubmitting || !isValid} onClick={submitForm} customType="primary" isLoading={isSubmitting}>
+              <Button
+                type="submit"
+                disabled={isSubmitting || !isValid}
+                onClick={submitForm}
+                customType="primary"
+                isLoading={isSubmitting}
+              >
                 Subscribe
               </Button>
             </Form>

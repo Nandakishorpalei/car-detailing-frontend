@@ -13,7 +13,6 @@ import {
 } from "firebase/auth";
 import { Form, Formik, FormikValues } from "formik";
 import { useState } from "react";
-import { BACKEND_URL } from "../../Constant/auth";
 import { auth } from "../../firebase/setup";
 import { phoneNumberSchema } from "../../FormValidations/PhoneNumberSchema";
 import { useToast } from "../../Hooks/useToast";
@@ -69,7 +68,7 @@ export const AddCustomer = ({
         phone: values.phone,
       };
 
-      await axios.post(BACKEND_URL + "/signin", payload);
+      await axios.post(process.env.NODE_APP_BASE_URL + "/signin", payload);
       successToast({ message: "Customer added successfully!" });
       dispatch(usersApi.util.invalidateTags(["Users"]));
       setOpen?.(false);

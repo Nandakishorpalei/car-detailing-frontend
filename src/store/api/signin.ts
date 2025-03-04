@@ -1,5 +1,4 @@
 import axios from "axios";
-import { BACKEND_URL } from "../../Constant/auth";
 
 export const signin = async ({
   payload,
@@ -10,7 +9,10 @@ export const signin = async ({
   };
 }) => {
   try {
-    const { data } = await axios.post(BACKEND_URL + "/signin", payload);
+    const { data } = await axios.post(
+      process.env.NODE_APP_BASE_URL + "/signin",
+      payload
+    );
     return data;
   } catch (e: any) {
     return e;

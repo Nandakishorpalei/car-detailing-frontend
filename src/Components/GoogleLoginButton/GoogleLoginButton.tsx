@@ -3,8 +3,9 @@ import { GoogleIcon } from "../../Icons/GoogleIcon";
 import { Button } from "../../UI-Components/Button/Button";
 
 const GoogleLoginButton = () => {
+  const baseUrl = process.env.NODE_APP_BASE_URL;
   const handleGoogleLogin = () => {
-    window.location.href = "http://localhost:8000/auth/google";
+    window.location.href = `${baseUrl}/auth/google`;
   };
 
   return (

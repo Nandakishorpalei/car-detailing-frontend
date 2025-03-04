@@ -1,7 +1,6 @@
 import axios from "axios";
 import { FormikValues } from "formik";
 import React from "react";
-import { BACKEND_URL } from "../../Constant/auth";
 import useAuth from "../../Hooks/useAuth";
 import { usePageTitle } from "../../Hooks/usePageTitle";
 import { UserPayload } from "../../store/model/User";
@@ -15,7 +14,10 @@ export const Signup = () => {
 
   const handleSubmit = async (payload: UserPayload) => {
     try {
-      const { data } = await axios.post(BACKEND_URL + "/signup", payload);
+      const { data } = await axios.post(
+        process.env.NODE_APP_BASE_URL + "/signup",
+        payload
+      );
       login({ newAuthToken: data.token, newUser: data.user });
     } catch (e: any) {
       sweetAlert(e?.response?.data?.message);
