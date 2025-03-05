@@ -4,6 +4,7 @@ import {
   ServiceDetailsResponse,
 } from "../model/ServiceDetails";
 import { File } from "../model/File";
+import qs from "qs";
 
 export const extendedApi = emptyApi.injectEndpoints({
   endpoints: (build) => ({
@@ -38,18 +39,41 @@ export const extendedApi = emptyApi.injectEndpoints({
     getServices: build.query<
       { serviceDetails: ServiceDetailsResponse[] },
       {
-        username?: string;
-        model?: string;
-        color?: string;
-        search?: string;
-        approval_status?: "pending" | "in_progress" | "completed" | "rejected";
+        username: string | null;
+        model: string | null;
+        color: string | null;
+        search: string | null;
+        year: string | null;
+        work_status: string | null;
+        registration_number: string | null;
       }
     >({
-      query: ({ username, model, color, search, approval_status } = {}) => ({
-        url: `/services`,
-        method: "GET",
-        params: { username, model, color }, // Pass filters as query params
-      }),
+      query: ({
+        username,
+        model,
+        color,
+        search,
+        work_status,
+        year,
+        registration_number,
+      }) => {
+        let queryUrl = qs.stringify(
+          {
+            username,
+            model,
+            color,
+            search,
+            work_status,
+            year,
+            registration_number,
+          },
+          { skipNulls: true, addQueryPrefix: true }
+        );
+        return {
+          url: `/services/${queryUrl}`,
+          method: "GET",
+        };
+      },
       providesTags: ["Services"],
     }),
 
@@ -90,9 +114,11 @@ export const extendedApi = emptyApi.injectEndpoints({
     getFilterOptions: build.query<
       {
         filterOptions: {
-          years: number[];
+          years: string[];
           usernames: string[];
           models: string[];
+          registration_numbers: string[];
+          colors: string[];
         };
       },
       void

@@ -29,7 +29,7 @@ export const Checkbox = forwardRef<HTMLInputElement | null, CheckboxProps>(
     return (
       <div className="relative flex flex-shrink-0 flex-grow-0 items-center justify-start gap-2">
         <input
-          className="form-checkbox left-0 top-0 h-4 w-4 cursor-pointer rounded-sm border-solid border-neutral-20 text-blue opacity-100 indeterminate:border-blue indeterminate:text-blue hover:bg-surface-blue focus:text-blue focus:ring-blue-20 focus:ring-offset-0 disabled:pointer-events-none disabled:border-neutral-10 disabled:!text-surface-grey"
+          className="left-0 top-0 h-4 w-4 cursor-pointer rounded-sm border-solid border-neutral-10 text-green opacity-100 indeterminate:border-green indeterminate:text-green hover:bg-surface-background focus:text-green focus:ring-green-20 focus:ring-offset-0 disabled:pointer-events-none disabled:border-neutral-10 disabled:!text-surface-grey"
           disabled={disabled}
           type="checkbox"
           name={name}
@@ -39,7 +39,7 @@ export const Checkbox = forwardRef<HTMLInputElement | null, CheckboxProps>(
         />
         {label && (
           <label
-            className="cursor-pointer select-none texbody text-neutral-100"
+            className="cursor-pointer select-none text-body text-text-30"
             htmlFor={name}
           >
             {label}
