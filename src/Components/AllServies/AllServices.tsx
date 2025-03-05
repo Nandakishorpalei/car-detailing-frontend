@@ -55,7 +55,11 @@ export const AllServices = () => {
       <Header title="My Services" />
       <div className="bg-surface-background p-12 pt-6 h-[calc(100vh-65px)] w-screen px-[15%] sm:px-[4%]">
         <div className="flex justify-between mb-6">
-          <ServicesFilter updateFilter={updateFilter} values={filterValues} />
+          <ServicesFilter
+            updateFilter={updateFilter}
+            values={filterValues}
+            isAdmin
+          />
           <div className="t-w-1/2">
             <Search onChange={onChange} placeholder="Search" block />
           </div>

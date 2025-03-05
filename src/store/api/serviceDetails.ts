@@ -79,13 +79,39 @@ export const extendedApi = emptyApi.injectEndpoints({
 
     getMyServices: build.query<
       { serviceDetails: ServiceDetailsResponse[] },
-      { model?: string; color?: string; year?: number; search?: string }
+      {
+        model: string | null;
+        color: string | null;
+        search: string | null;
+        year: string | null;
+        work_status: string | null;
+        registration_number: string | null;
+      }
     >({
-      query: ({ model, color, year, search } = {}) => ({
-        url: `/services/myservices`,
-        method: "GET",
-        params: { model, color, year, search }, // Pass filters as query params
-      }),
+      query: ({
+        model,
+        color,
+        search,
+        work_status,
+        year,
+        registration_number,
+      }) => {
+        let queryUrl = qs.stringify(
+          {
+            model,
+            color,
+            search,
+            work_status,
+            year,
+            registration_number,
+          },
+          { skipNulls: true, addQueryPrefix: true }
+        );
+        return {
+          url: `/services/myservices/${queryUrl}`,
+          method: "GET",
+        };
+      },
       providesTags: ["Services"],
     }),
 

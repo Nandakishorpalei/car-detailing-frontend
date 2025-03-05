@@ -6,6 +6,7 @@ import { useGetFilterOptionsQuery } from "../../store/api/serviceDetails";
 export const ServicesFilter = ({
   updateFilter,
   values,
+  isAdmin,
 }: {
   updateFilter: <
     S extends
@@ -34,6 +35,7 @@ export const ServicesFilter = ({
     WORK_STATUS: string[];
     YEAR: string[];
   };
+  isAdmin?: boolean;
 }) => {
   const updateFilterCallback =
     (name: Parameters<typeof updateFilter>[0]) =>
@@ -112,7 +114,7 @@ export const ServicesFilter = ({
       <Filter.Portal>
         <Filter.List>
           <Filter.ListItem value="MODEL">Model</Filter.ListItem>
-          <Filter.ListItem value="USERNAME">User</Filter.ListItem>
+          {isAdmin && <Filter.ListItem value="USERNAME">User</Filter.ListItem>}
           <Filter.ListItem value="COLOR">Colour</Filter.ListItem>
           <Filter.ListItem value="REGISTRATION_NUMBER">
             Registration Number
@@ -133,19 +135,21 @@ export const ServicesFilter = ({
             selected={values?.MODEL}
           />
         </Filter.Body>
-        <Filter.Body value="USERNAME" block>
-          <MultiSelectFilter
-            isSearchable
-            onChange={updateFilterCallback("USERNAME")}
-            options={
-              data?.filterOptions.usernames.map((user) => ({
-                label: user,
-                value: user,
-              })) || []
-            }
-            selected={values?.USERNAME}
-          />
-        </Filter.Body>
+        {isAdmin && (
+          <Filter.Body value="USERNAME" block>
+            <MultiSelectFilter
+              isSearchable
+              onChange={updateFilterCallback("USERNAME")}
+              options={
+                data?.filterOptions.usernames.map((user) => ({
+                  label: user,
+                  value: user,
+                })) || []
+              }
+              selected={values?.USERNAME}
+            />
+          </Filter.Body>
+        )}
         <Filter.Body value="COLOR" block>
           <MultiSelectFilter
             isSearchable
